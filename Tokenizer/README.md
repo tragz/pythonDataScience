@@ -15,6 +15,7 @@ Tokenization of strings
 
 ```bash
     pip install -U nltk
+    pip install transformers
 ```
     
 ## Documentation
