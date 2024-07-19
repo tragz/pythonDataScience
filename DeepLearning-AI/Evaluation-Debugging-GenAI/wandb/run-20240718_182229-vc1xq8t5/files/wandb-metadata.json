@@ -1,0 +1,48 @@
+{
+    "os": "macOS-14.5-arm64-arm-64bit",
+    "python": "3.12.4",
+    "heartbeatAt": "2024-07-18T12:52:32.894608",
+    "startedAt": "2024-07-18T12:52:29.853861",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "DeepLearning-AI/Evaluation-Debugging-GenAI/0-weights-biases.ipynb",
+    "codePathLocal": null,
+    "root": "/Users/raghav.tanaji/Desktop/gitrepos/pythonDataScience",
+    "git": {
+        "remote": "https://github.com/tragz/pythonDataScience",
+        "commit": "1b63f59f754a263bc3f777dfc91e69897b886429"
+    },
+    "email": "raghav.tanaji@salesforce.com",
+    "host": "raghavt-ltmaypr.internal.salesforce.com",
+    "username": "raghav.tanaji",
+    "executable": "/Users/raghav.tanaji/Desktop/gitrepos/pythonDataScience/venv/bin/python",
+    "cpu_count": 10,
+    "cpu_count_logical": 10,
+    "cpu_freq": {
+        "current": 3228,
+        "min": 600,
+        "max": 3228
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3228,
+            "min": 600,
+            "max": 3228
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 926.3517189025879,
+            "used": 9.556400299072266
+        }
+    },
+    "gpuapple": {
+        "type": "Apple M1 Max",
+        "vendor": "sppci_vendor_Apple"
+    },
+    "memory": {
+        "total": 64.0
+    }
+}

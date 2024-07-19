@@ -17,7 +17,7 @@ Tokenization of strings
     pip install -U nltk
     pip install transformers
 ```
-    
+Restart the Kernal after installing the packages   
 ## Documentation
 
 #### Why do we need to tokenize strings?

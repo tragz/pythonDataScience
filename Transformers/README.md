@@ -19,6 +19,8 @@
 ```bash
     pip install timm
 ```
+Restart the Kernal after installing the packages
+
 [tensorflow](https://www.tensorflow.org/install)
 ### Documentation
 

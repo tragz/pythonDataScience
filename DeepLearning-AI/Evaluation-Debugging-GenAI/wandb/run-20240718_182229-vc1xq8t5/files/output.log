@@ -1,0 +1,11 @@
+<xml><var name="_dummy_ipython_val"  />
+<var name="_dummy_special_var"  />
+<var name="CLASSES" type="list" qualifier="builtins" value="%5B%27hero%27%2C %27non-hero%27%2C %27food%27%2C %27spell%27%2C %27side-facing%27%5D" isContainer="True" shape="5" />
+<var name="DATA_DIR" type="PosixPath" qualifier="pathlib" value="PosixPath%28%27data%27%29" isContainer="True" />
+<var name="DEVICE" type="device" qualifier="torch" value="device%28type=%27cpu%27%29" isContainer="True" />
+<var name="HIDDEN_SIZE" type="int" qualifier="builtins" value="256" />
+<var name="INPUT_SIZE" type="int" qualifier="builtins" value="768" />
+<var name="NUM_WORKERS" type="int" qualifier="builtins" value="2" />
+<var name="OUTPUT_SIZE" type="int" qualifier="builtins" value="5" />
+<var name="config" type="SimpleNamespace" qualifier="types" value="namespace%28epochs=2%2C batch_size=128%2C lr=1e-05%2C dropout=0.5%2C slice_size=10000%2C valid_pct=0.2%29" isContainer="True" />
+</xml>

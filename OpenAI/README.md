@@ -42,3 +42,10 @@ Access OpenAI models
     pprint.pprint(dict(env_var), width = 1) 
     
 ```
+
+## Environment Variables
+To run this project, you will need to add the following environment variables. 
+
+OPENAI_API_KEY
+
+
