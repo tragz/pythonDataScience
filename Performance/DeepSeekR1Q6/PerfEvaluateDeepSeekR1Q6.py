@@ -8,8 +8,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import csv
 
 
-
-
 def measure_command_time(command):
     """Executes a system command and measures the response time."""
     start_time = time.perf_counter()
@@ -42,15 +40,17 @@ def run_commands_from_file(file_path, output_file_path):
     progress_bar = tqdm(total=len(commands), desc="Executing Commands", ncols=100, unit="command")
 
     results = []
-    with ThreadPoolExecutor(max_workers=1) as executor:
+    num_workers = 2
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
         futures = {executor.submit(command_runner.invoke, command): command for command in commands}
 
         for future in as_completed(futures):
             result = future.result()
             results.append(result)
 
-            progress_bar.update(2)
+            progress_bar.update(num_workers)
             # Update progress bar after every 2 executions
+            '''
             if len(results) % 10 == 0:
                 print("=" * 40)
                 print(f"Command: {result['command']}")
@@ -58,6 +58,7 @@ def run_commands_from_file(file_path, output_file_path):
                 print(f"Error: {result['error'] if result['error'] else 'No Errors'}")
                 print(f"Response Time: {result['response_time']:.6f} seconds")
                 print("=" * 40)
+            '''
 
     progress_bar.close()
 
@@ -68,16 +69,13 @@ def run_commands_from_file(file_path, output_file_path):
 
         # Write command and response time for each result
         for res in results:
-            writer.writerow([res['command'], f"{res['response_time']:.6f}"])
-
+            writer.writerow([res['command'], f"{res['response_time']:.3f}"])
 
     return results
 
 
-# Example: Change 'commands.txt' to your actual file name
-file_path = Path("test_100_prompts.txt")
-#file_path = Path("DSR1Q6_hawk_commands.txt") # Using pathlib
-output_file_path = Path("DSR1Q6_1.txt")
+file_path = Path("/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/test_100_prompts.txt")
+output_file_path = Path("DSR1Q6_2.txt")
 results = run_commands_from_file(file_path, output_file_path)
 
 response_times = [res['response_time'] for res in results]
@@ -86,10 +84,8 @@ min_time = np.min(response_times)
 max_time = np.max(response_times)
 p95_time = np.percentile(response_times, 95)
 
-
-
 # Display statistical results
 print("\nStatistical Summary:")
-print(f"Minimum Response Time: {min_time:.6f} seconds")
-print(f"Maximum Response Time: {max_time:.6f} seconds")
-print(f"95th Percentile Response Time: {p95_time:.6f} seconds")
+print(f"Minimum Response Time: {min_time:.3f} seconds")
+print(f"Maximum Response Time: {max_time:.3f} seconds")
+print(f"95th Percentile Response Time: {p95_time:.3f} seconds")

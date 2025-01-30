@@ -1,4 +1,8 @@
 Concurrency = 1
+Minimum Response Time: 1.047 seconds
+Maximum Response Time: 11.385 seconds
+95th Percentile Response Time: 11.096 seconds
+
 Concurrency = 2
 Concurrency = 5
 Concurrency = 10
