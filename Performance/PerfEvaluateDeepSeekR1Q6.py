@@ -75,7 +75,7 @@ def run_commands_from_file(file_path, output_file_path):
 
 
 # Example: Change 'commands.txt' to your actual file name
-file_path = Path("test.txt")
+file_path = Path("test_100_prompts.txt")
 #file_path = Path("DSR1Q6_hawk_commands.txt") # Using pathlib
 output_file_path = Path("DSR1Q6_1.txt")
 results = run_commands_from_file(file_path, output_file_path)
