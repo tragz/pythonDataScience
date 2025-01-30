@@ -9,4 +9,8 @@ Maximum Response Time: 21.149 seconds
 95th Percentile Response Time: 19.771 seconds
 
 Concurrency = 5
+Minimum Response Time: 1.085 seconds
+Maximum Response Time: 49.582 seconds
+95th Percentile Response Time: 49.313 seconds
+
 Concurrency = 10
