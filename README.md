@@ -20,3 +20,9 @@ git add <opened files>
 git commit -m "Commit file to remote repo"
 git push
 ```
+
+### Install Requirements.txt
+
+```text
+pip install -r requirements.txt
+```
