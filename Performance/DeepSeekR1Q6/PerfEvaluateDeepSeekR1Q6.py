@@ -40,7 +40,7 @@ def run_commands_from_file(file_path, output_file_path):
     progress_bar = tqdm(total=len(commands), desc="Executing Commands", ncols=100, unit="command")
 
     results = []
-    num_workers = 2
+    num_workers = 5
     with ThreadPoolExecutor(max_workers=num_workers) as executor:
         futures = {executor.submit(command_runner.invoke, command): command for command in commands}
 
@@ -75,7 +75,7 @@ def run_commands_from_file(file_path, output_file_path):
 
 
 file_path = Path("/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/test_100_prompts.txt")
-output_file_path = Path("DSR1Q6_2.txt")
+output_file_path = Path("DSR1Q6_BATCH_5_RESULTS.txt")
 results = run_commands_from_file(file_path, output_file_path)
 
 response_times = [res['response_time'] for res in results]
