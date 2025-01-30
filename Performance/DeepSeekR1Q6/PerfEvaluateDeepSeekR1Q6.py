@@ -74,8 +74,8 @@ def run_commands_from_file(file_path, output_file_path):
     return results
 
 
-file_path = Path("/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/test_100_prompts.txt")
-output_file_path = Path("DSR1Q6_BATCH_10_RESULTS.txt")
+file_path = Path("/Performance/DeepSeekR1Q6/Datasets/test_100_prompts.txt")
+output_file_path = Path("Results/DSR1Q6_BATCH_10_RESULTS.txt")
 results = run_commands_from_file(file_path, output_file_path)
 
 response_times = [res['response_time'] for res in results]

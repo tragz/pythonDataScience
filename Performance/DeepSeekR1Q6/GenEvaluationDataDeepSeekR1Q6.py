@@ -31,7 +31,7 @@ for subject in df['subject'].unique():
         commands.append(command)
 
 # save the commands to a file
-output_file = Path("DSR1Q6_HAWK_COMMANDS.txt")
+output_file = Path("Datasets/DSR1Q6_HAWK_COMMANDS.txt")
 output_file.write_text("\n".join(commands))
 
 print(f"Command saved to {output_file}")
