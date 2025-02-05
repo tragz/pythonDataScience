@@ -1,0 +1,19 @@
+curl -X POST "https://api.together.xyz/v1/chat/completions" \
+  -H "Authorization: Bearer tgp_v1_0KGRmgcAHo-SvuQALUXyCi0ly_MsUTp0i2Ps0DxD6w8" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "deepseek-ai/DeepSeek-R1",
+    "messages": [
+        {
+                "role": "user",
+                "content": "tell about india"
+        }
+],
+    "max_tokens": null,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 50,
+    "repetition_penalty": 1,
+    "stop": ["<｜end▁of▁sentence｜>"],
+    "stream": true
+  }'
