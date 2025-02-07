@@ -2,6 +2,7 @@ import requests
 import json
 import time
 import statistics
+import concurrent.futures
 from tabulate import tabulate
 
 # API URL and headers
@@ -40,28 +41,32 @@ with open(file_path, "r", encoding="utf-8") as file:
 # Store response times
 response_times = {model: [] for model in MODELS}
 
-# Send requests
-for model in MODELS:
-    for prompt in samples:
-        payload = {
-            "messages": [{"role": "user", "content": prompt}],
-            "model": model,
-            "generation_settings": {}
-        }
+# Function to send request
+def send_request(model, prompt):
+    payload = {
+        "messages": [{"role": "user", "content": prompt}],
+        "model": model,
+        "generation_settings": {}
+    }
+    
+    start_time = time.time()
+    response = requests.post(API_URL, headers=HEADERS, json=payload)
+    end_time = time.time()
+    
+    return model, end_time - start_time
 
-        start_time = time.time()
-        response = requests.post(API_URL, headers=HEADERS, json=payload)
-        end_time = time.time()
-
-        elapsed_time = end_time - start_time
+# Run requests in parallel
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    future_to_model = {executor.submit(send_request, model, prompt): model for model in MODELS for prompt in samples}
+    for future in concurrent.futures.as_completed(future_to_model):
+        model, elapsed_time = future.result()
         response_times[model].append(elapsed_time)
-
 
 # Calculate statistics
 def calculate_statistics(times):
     if not times:
         return {"min": 0, "max": 0, "median": 0, "p50": 0, "p95": 0}
-
+    
     times.sort()
     p95_index = max(1, int(0.95 * len(times))) - 1  # Ensure at least 1 index
     return {
@@ -72,14 +77,11 @@ def calculate_statistics(times):
         "p95": times[p95_index]  # Use sorted list for p95 calculation
     }
 
-
 stats = {model: calculate_statistics(response_times[model]) for model in MODELS}
 
-
-# Print results
+# Print results as a table
 table_data = []
 for model, stat in stats.items():
     table_data.append([model, f"{stat['min']:.3f}", f"{stat['max']:.3f}", f"{stat['p50']:.3f}", f"{stat['p95']:.3f}"])
 
 print(tabulate(table_data, headers=["Model Name", "Min (s)", "Max (s)", "P50 (s)", "P95 (s)"], tablefmt="grid"))
-

@@ -2,7 +2,6 @@ import requests
 import json
 import time
 import statistics
-from tabulate import tabulate
 
 # API URL and headers
 API_URL = "https://bot-svc-llm.sfproxy.einstein.aws-dev4-uswest2.aws.sfdc.cl/v1.0/chat/generations"
@@ -27,7 +26,7 @@ samples = []
 file_path = "/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/Datasets/samples.txt"
 
 with open(file_path, "r", encoding="utf-8") as file:
-    for _ in range(50):
+    for _ in range(10):
         line = file.readline()
         if not line:
             break
@@ -77,9 +76,25 @@ stats = {model: calculate_statistics(response_times[model]) for model in MODELS}
 
 
 # Print results
-table_data = []
 for model, stat in stats.items():
-    table_data.append([model, f"{stat['min']:.3f}", f"{stat['max']:.3f}", f"{stat['p50']:.3f}", f"{stat['p95']:.3f}"])
+    print(f"Model: {model}")
+    print(
+        f"Min: {stat['min']:.3f} s, Max: {stat['max']:.3f} s, Median: {stat['median']:.3f} s, P50: {stat['p50']:.3f} s, P95: {stat['p95']:.3f} s")
+    '''
+    print("Responses:")
+    for i, response in enumerate(results[model], 1):
+        print(f"{i}. {response}")
+    '''
+    print("-" * 50)
 
-print(tabulate(table_data, headers=["Model Name", "Min (s)", "Max (s)", "P50 (s)", "P95 (s)"], tablefmt="grid"))
 
+for model, stat in stats.items():
+    print(f"Model: {model}")
+    print(
+        f"Min: {stat['min']:.3f} s, Max: {stat['max']:.3f} s, Median: {stat['median']:.3f} s, P50: {stat['p50']:.3f} s, P95: {stat['p95']:.3f} s")
+    '''
+    print("Responses:")
+    for i, response in enumerate(results[model], 1):
+        print(f"{i}. {response}")
+    '''
+    print("-" * 50)
