@@ -1,0 +1,19 @@
+Concurrency = 1
+Minimum Response Time: 1.047 seconds
+Maximum Response Time: 11.385 seconds
+95th Percentile Response Time: 11.096 seconds
+
+Concurrency = 2
+Minimum Response Time: 6.893 seconds
+Maximum Response Time: 21.149 seconds
+95th Percentile Response Time: 19.771 seconds
+
+Concurrency = 5
+Minimum Response Time: 1.085 seconds
+Maximum Response Time: 49.582 seconds
+95th Percentile Response Time: 49.313 seconds
+
+Concurrency = 10
+Minimum Response Time: 7.596 seconds
+Maximum Response Time: 61.755 seconds
+95th Percentile Response Time: 61.223 seconds
