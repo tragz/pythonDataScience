@@ -5,7 +5,8 @@ import random
 import openai  # Assuming GPT-4 API is used for evaluation
 
 
-openai.api_key = "
+
+openai.api_key = ""
 # Read the file
 file_path = "/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/Datasets/samples.txt"
 
@@ -61,7 +62,9 @@ def get_prediction(model, prompt):
         return None
 
 
-def evaluate_responses(response1, response2, prompt, log_file="/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/Resultsevaluation_log.txt"):
+
+def evaluate_responses(response1, response2, prompt, log_file="/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/Results/evaluation_log.txt"):
+
     """Uses GPT-4 to evaluate accuracy, coherence, and relevance."""
     evaluation_prompt = f"""
     Compare the following responses to the question: "{json.loads(prompt)["inputPrompt"]}"

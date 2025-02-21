@@ -17,10 +17,12 @@ HEADERS = {
 # Models to test
 MODELS = [
     "llmgateway__EinsteinDeepSeekR1",
-    "llmgateway__OpenAIGPT35Turbo_01_25",
+    "llmgateway__OpenAIGPT4_03_14",
     "llmgateway__BedrockAnthropicClaude35Sonnet",
     "llmgateway__VertexAIGeminiPro15"
 ]
+
+MODELS = ["llmgateway__EinsteinDeepSeekR1"]
 
 # Read 10 input prompts from the specified file path
 samples = []

@@ -48,4 +48,10 @@ To run this project, you will need to add the following environment variables.
 
 OPENAI_API_KEY
 
+## Get list of models
+
+```text
+ curl https://api.openai.com/v1/models -H "Authorization: Bearer $OPENAI_API_KEY"
+```
+
 

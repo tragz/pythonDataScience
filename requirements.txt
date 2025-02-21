@@ -8,3 +8,4 @@ pandas
 urllib3==1.26.16
 langchain
 matplotlib
+openai==0.28
