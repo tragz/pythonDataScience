@@ -1,0 +1,53 @@
+git clone https://github.com/liveaverage/nim-shim && cd nim-shim
+
+### Login to aws ECR
+aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin "887927004414.dkr.ecr.us-west-2.amazonaws.com"
+
+### Set your NGC API Key
+export NGC_API_KEY=cWgwaWxvYzg2cXBkdmd1c3JnZjEwY2RicGM6YmVlOWUxNjctMjlmMi00MGViLTk0ZjktOTg5MTkwMzEzN2Zh
+
+export SRC_IMAGE_PATH=nvcr.io/nim/deepseek-ai/deepseek-r1:1.0.1
+export SRC_IMAGE_NAME="${SRC_IMAGE_PATH##*/}"
+export SRC_IMAGE_NAME="${SRC_IMAGE_NAME%%:*}"
+export DST_REGISTRY=887927004414.dkr.ecr.us-west-2.amazonaws.com/nim-shim
+
+### Set the Endpoint Name and role
+export SG_EP_NAME="EinsteinDeepSeekR1NIM"
+export SG_EP_CONTAINER=887927004414.dkr.ecr.us-west-2.amazonaws.com/nim-shim:latest
+export SG_INST_TYPE=ml.p5en.48xlarge
+export SG_EXEC_ROLE_ARN="arn:aws:iam::887927004414:role/sfdc-sagemaker-finetuning-role-dev2"
+export SG_CONTAINER_STARTUP_TIMEOUT=850
+
+### Deploy via AWS CLI
+cd nim-shim
+
+# Generate model JSON
+envsubst < templates/sg-model.template > sg-model.json
+
+# make sure the model EinsteinDeepSeekR1NIM does not exist else delete
+aws sagemaker delete-model --model-name EinsteinDeepSeekR1NIM --region us-west-2
+
+# create model EinsteinDeepSeekR1NIM
+aws sagemaker create-model \
+    --cli-input-json file://sg-model.json
+
+# make sure the model endpoint configuration does not exist else delete
+aws sagemaker delete-endpoint-config --endpoint-config-name EinsteinDeepSeekR1NIM
+
+# create model endpoint configuration
+aws sagemaker create-endpoint-config \
+    --endpoint-config-name $SG_EP_NAME \
+    --production-variants "$(envsubst < templates/sg-prod-variant.template)"
+
+# make sure the model endpoint does not exist else delete
+aws sagemaker delete-endpoint --endpoint-name EinsteinDeepSeekR1NIM
+
+# Create Endpoint
+aws sagemaker create-endpoint \
+    --endpoint-name $SG_EP_NAME \
+    --endpoint-config-name $SG_EP_NAME
+
+# Restore SGLang Endpoint
+aws sagemaker create-endpoint \
+    --endpoint-name "EinsteinDeepSeekR1SGLang" \
+    --endpoint-config-name "EinsteinDeepSeekR1Sglang"
