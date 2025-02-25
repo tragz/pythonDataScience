@@ -1,29 +1,26 @@
+import argparse
 import random
 import json
 import time
+import numpy as np  # For statistical calculations
 from tqdm import tqdm
 from tabulate import tabulate
 from sagemaker.predictor import Predictor
 from sagemaker.serializers import JSONSerializer
 from sagemaker.deserializers import JSONDeserializer
-import numpy as np  # For statistical calculations
-
-# Define SageMaker endpoint
-ENDPOINT_NAME = "EinsteinDeepSeekR1Sglang"
-
-# File paths
-INPUT_FILE = "/Users/raghav.tanaji/Desktop/gitrepos/LEARNING/pythonDataScience/Performance/DeepSeekR1Q6/Datasets/samples.txt"
-OUTPUT_FILE = "samples_results.txt"
-
-# Create SageMaker predictor
-predictor = Predictor(
-    endpoint_name=ENDPOINT_NAME,
-    serializer=JSONSerializer(),
-    deserializer=JSONDeserializer()
-)
 
 
-def load_valid_json_lines(file_path, sample_size=50):
+def parse_arguments():
+    """Parse command-line arguments with default values."""
+    parser = argparse.ArgumentParser(description="SageMaker Model Prediction Script")
+    parser.add_argument("--model-name", required=True, help="Name of the SageMaker endpoint")
+    parser.add_argument("--input-file", default="samples.txt", help="Path to the input JSON file")
+    parser.add_argument("--num-samples", type=int, default=50, help="Number of samples to process")
+    parser.add_argument("--output-file", default="samples_results.txt", help="Output file path")
+    return parser.parse_args()
+
+
+def load_valid_json_lines(file_path, sample_size):
     """Reads a file, filters valid JSON lines, and returns a random sample."""
     with open(file_path, "r") as file:
         valid_lines = [line.strip() for line in file if is_valid_json(line)]
@@ -55,8 +52,14 @@ def prepare_payloads(json_objects):
     ]
 
 
-def run_predictions(payloads):
+def run_predictions(endpoint_name, payloads):
     """Runs predictions on a batch of payloads and records response times."""
+    predictor = Predictor(
+        endpoint_name=endpoint_name,
+        serializer=JSONSerializer(),
+        deserializer=JSONDeserializer()
+    )
+
     results = []
     times = []
 
@@ -106,10 +109,10 @@ def save_results_to_file(results, file_path):
         json.dump(results, f, indent=4)
 
 
-def print_statistics_table(stats):
+def print_statistics_table(stats, model_name):
     """Prints performance statistics in a table format."""
     table = [
-        ["EinsteinDeepSeekR1 - JumpStart", stats["min_time"], stats["max_time"],
+        [model_name, stats["min_time"], stats["max_time"],
          stats["mean_time"], stats["median_time"], stats["p95_time"]]
     ]
     headers = ["Model Name", "Min (s)", "Max (s)", "Mean (s)", "Median (s)", "P95 (s)"]
@@ -117,14 +120,16 @@ def print_statistics_table(stats):
 
 
 if __name__ == "__main__":
+    args = parse_arguments()
+
     try:
-        json_objects = load_valid_json_lines(INPUT_FILE)
+        json_objects = load_valid_json_lines(args.input_file, args.num_samples)
         payloads = prepare_payloads(json_objects)
-        results, times = run_predictions(payloads)
-        save_results_to_file(results, OUTPUT_FILE)
+        results, times = run_predictions(args.model_name, payloads)
+        save_results_to_file(results, args.output_file)
 
         stats = calculate_statistics(times)
-        print_statistics_table(stats)
+        print_statistics_table(stats, args.model_name)
 
     except Exception as e:
         print(f"Error: {e}")
